@@ -39,5 +39,8 @@ Meteor.log.add "Console", (level, message, data = null, userId) =>
     when "DEBUG"
       cons.debug obj
 
+    when "TRACE"
+      console.trace obj
+
     else
       cons.log obj

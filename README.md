@@ -22,6 +22,8 @@ Meteor.log.debug(message, data, userId);
 Meteor.log.error(message, data, userId);
 Meteor.log.fatal(message, data, userId);
 Meteor.log.warn(message, data, userId);
+Meteor.log.trace(message, data, userId);
+Meteor.log._(message, data, userId); //--> Shortcut for logging without message, e.g.: simple plain log
 ```
 
 ##### Activate and set adapter settings [`Server` & `Client`]

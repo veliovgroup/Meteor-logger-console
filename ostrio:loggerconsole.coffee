@@ -27,7 +27,10 @@ Meteor.log.add "Console", (level, message, data = null, userId) =>
     additional: data
 
   switch level
-    when "FATAL" or "ERROR"
+    when "FATAL"
+      cons.error obj
+      
+    when "ERROR"
       cons.error obj
 
     when "INFO"

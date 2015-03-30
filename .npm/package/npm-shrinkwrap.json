@@ -4,7 +4,7 @@
       "version": "0.1.7",
       "dependencies": {
         "cli-color": {
-          "version": "0.3.2",
+          "version": "0.3.3",
           "dependencies": {
             "d": {
               "version": "0.1.1"
@@ -67,7 +67,7 @@
               "version": "4.0.1"
             },
             "meow": {
-              "version": "3.0.0",
+              "version": "3.1.0",
               "dependencies": {
                 "camelcase-keys": {
                   "version": "1.0.0",
@@ -81,26 +81,20 @@
                   }
                 },
                 "indent-string": {
-                  "version": "1.2.0",
+                  "version": "1.2.1",
                   "dependencies": {
-                    "get-stdin": {
-                      "version": "3.0.2"
-                    },
                     "repeating": {
-                      "version": "1.1.1",
+                      "version": "1.1.2",
                       "dependencies": {
                         "is-finite": {
                           "version": "1.0.0"
-                        },
-                        "meow": {
-                          "version": "2.1.0"
                         }
                       }
                     }
                   }
                 },
                 "minimist": {
-                  "version": "1.1.0"
+                  "version": "1.1.1"
                 },
                 "object-assign": {
                   "version": "2.0.0"

@@ -15,7 +15,7 @@ else
 
 Meteor.log.add "Console", (level, message, data = null, userId) =>
   data = null if data is undefined or data is "undefined" or !data
-  data = JSON.stringify(Meteor.log.antiCircular(data)) if data
+  data = Meteor.log.antiCircular(data) if data
     
   time = new Date()
 

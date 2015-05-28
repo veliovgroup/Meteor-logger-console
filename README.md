@@ -28,7 +28,7 @@ Meteor.log._(message, data, userId); //--> Shortcut for logging without message,
 
 ##### Activate and set adapter settings [`Server` & `Client`]
 ```javascript
-Meteor.log.rule('File', 
+Meteor.log.rule('Console', 
 {
   enable: true,
   filter: ['ERROR', 'FATAL', 'WARN'], /* Filters: 'ERROR', 'FATAL', 'WARN', 'DEBUG', 'INFO', '*' */

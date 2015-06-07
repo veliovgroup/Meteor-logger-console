@@ -1,6 +1,7 @@
 Changelog
 =========
-
+ - [[`v0.0.8`](https://github.com/VeliovGroup/Meteor-logger-console/releases/tag/v0.0.0)] *06/07/2015*
+   - Deps packages update
  - [[`v0.0.7`](https://github.com/VeliovGroup/Meteor-logger-console/releases/tag/v0.0.7)] *05/29/2015*
    - Deps packages update
    - Add Changelog.md

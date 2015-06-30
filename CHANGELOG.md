@@ -1,6 +1,8 @@
 Changelog
 =========
- - [[`v0.0.8`](https://github.com/VeliovGroup/Meteor-logger-console/releases/tag/v0.0.0)] *06/07/2015*
+ - [[`v1.0.0`](https://github.com/VeliovGroup/Meteor-logger-console/releases/tag/v1.0.0)] *07/01/2015*
+   - Deps packages update see [ostrio:logger@1.0.0](https://github.com/VeliovGroup/Meteor-logger/releases/tag/v1.0.0)
+ - [[`v0.0.8`](https://github.com/VeliovGroup/Meteor-logger-console/releases/tag/v0.0.8)] *06/07/2015*
    - Deps packages update
  - [[`v0.0.7`](https://github.com/VeliovGroup/Meteor-logger-console/releases/tag/v0.0.7)] *05/29/2015*
    - Deps packages update

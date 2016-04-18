@@ -3,9 +3,11 @@ Logging: To Console
 Print Client's log messages into Server's console within [ostrio:logger](https://atmospherejs.com/ostrio/logger) package. All messages is enhanced with colors and extra styles for better readability.
 
 Server example:
+
 ![server example](https://raw.githubusercontent.com/VeliovGroup/Meteor-logger-console/master/server.png)
 
 Client example:
+
 ![client example](https://raw.githubusercontent.com/VeliovGroup/Meteor-logger-console/master/client.png)
 
 Installation:

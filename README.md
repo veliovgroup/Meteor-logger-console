@@ -20,7 +20,7 @@ meteor add ostrio:loggerconsole
 Usage
 ========
 ##### Initialization [*Isomorphic*]
-`new LoggerConsole(LoggerInstance, options)`
+`new LoggerConsole(LoggerInstance)`
  - `LoggerInstance` {*Logger*} - from `new Logger()`
 
 Example:

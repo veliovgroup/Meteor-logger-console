@@ -38,6 +38,7 @@ new LoggerConsole(Log).enable({
   client: true, /* Output logs on both Server's and Client's console */
   server: true  /* Calls from Client and Server will be executed on Server */
 });
+```
 
 ##### Log [*Isomorphic*]
 ```javascript

@@ -1,13 +1,13 @@
 Logging: To Console
 ========
-Print Client's log messages into Server's console within [ostrio:logger](https://atmospherejs.com/ostrio/logger) package. All messages is enhanced with colors and extra styles for better readability.
+Print Client's log messages to Server's console package. All messages is enhanced with colors and extra styles for better readability.
 
-Server example:
+This package is not limited to transferring Client's log messages to Server. It can be used on client only, or for printing colorized messages on both Client and Server.
 
+##### Server example:
 ![server example](https://raw.githubusercontent.com/VeliovGroup/Meteor-logger-console/master/server.png)
 
-Client example:
-
+##### Client example:
 ![client example](https://raw.githubusercontent.com/VeliovGroup/Meteor-logger-console/master/client.png)
 
 Installation:
@@ -17,22 +17,30 @@ meteor add ostrio:logger # If not yet installed
 meteor add ostrio:loggerconsole
 ```
 
+Support this awesome package:
+========
+ - Star on [GitHub](https://github.com/VeliovGroup/Meteor-logger-console)
+ - Star on [Atmosphere](https://atmospherejs.com/ostrio/loggerconsole)
+ - [Tweet](https://twitter.com/share?url=https://github.com/VeliovGroup/Meteor-logger-console&text=Print%20colorful%20log%20messages%20and%20send%20Client's%20logs%20to%20Server's%20console%20%23meteorjs%20%23javascript%20via%20%40VeliovGroup)
+ - Share on [Facebook](https://github.com/VeliovGroup/Meteor-logger-console)
+
 Usage
 ========
 ##### Initialization [*Isomorphic*]
 `new LoggerConsole(LoggerInstance)`
  - `LoggerInstance` {*Logger*} - from `new Logger()`
 
-Example:
+Example: [*Isomorphic*]
 ```javascript
-this.Log = new Logger();
-var LogConsole = new LoggerConsole(Log);
+this.log = new Logger(); // Initialize Logger
+var LogConsole = new LoggerConsole(log); // Initialize LoggerConsole
+LogConsole.enable(); // Enable LoggerConsole with default settings
 ```
 
-##### Activate and set adapter settings [*Isomorphic*]
+##### Activate and set adapter settings: [*Isomorphic*]
 ```javascript
-this.Log = new Logger();
-new LoggerConsole(Log).enable({
+this.log = new Logger();
+new LoggerConsole(log).enable({
   enable: true,
   filter: ['ERROR', 'FATAL', 'WARN'], /* Filters: 'ERROR', 'FATAL', 'WARN', 'DEBUG', 'INFO', 'TRACE', '*' */
   client: true, /* Output logs on both Server's and Client's console */
@@ -40,40 +48,53 @@ new LoggerConsole(Log).enable({
 });
 ```
 
-##### Log [*Isomorphic*]
+##### Log message: [*Isomorphic*]
 ```javascript
-this.Log = new Logger();
-new LoggerConsole(Log).enable();
+this.log = new Logger();
+new LoggerConsole(log).enable();
 
 /*
   message {String} - Any text message
   data    {Object} - [optional] Any additional info as object
   userId  {String} - [optional] Current user id
  */
-Log.info(message, data, userId);
-Log.debug(message, data, userId);
-Log.error(message, data, userId);
-Log.fatal(message, data, userId);
-Log.warn(message, data, userId);
-Log.trace(message, data, userId);
-Log._(message, data, userId); //--> Shortcut for logging without message, e.g.: simple plain log
+log.info(message, data, userId);
+log.debug(message, data, userId);
+log.error(message, data, userId);
+log.fatal(message, data, userId);
+log.warn(message, data, userId);
+log.trace(message, data, userId);
+log._(message, data, userId); //--> Plain log without level
 
 /* Use with throw */
-throw Log.error(message, data, userId);
+throw log.error(message, data, usmerId);
 ```
 
-##### Use multiple logger(s) with different settings:
+##### Catch-all Client's errors example: [*CLIENT*]
 ```javascript
-this.Log1 = new Logger();
-this.Log2 = new Logger();
+/* Store original window.onerror */
+var _WoE = window.onerror;
 
-new LoggerConsole(Log1).enable({
+window.onerror = function(msg, url, line) {
+  log.error(msg, {file: url, onLine: line});
+  if (_WoE) {
+    _WoE.apply(this, arguments);
+  }
+};
+```
+
+##### Use multiple logger(s) with different settings: [*Isomorphic*]
+```javascript
+this.log1 = new Logger();
+this.log2 = new Logger();
+
+new LoggerConsole(log1).enable({
   filter: ['*'],
   client: true,
   server: true
 });
 
-new LoggerConsole(Log2).enable({
+new LoggerConsole(log2).enable({
   filter: ['ERROR', 'FATAL'],
   client: true,
   server: true

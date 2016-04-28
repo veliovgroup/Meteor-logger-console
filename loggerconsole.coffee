@@ -1,3 +1,7 @@
+###
+@class LoggerConsole
+@summary Colorful console adapter for ostrio:logger (Logger)
+###
 class LoggerConsole
   constructor: (@logger) ->
     check @logger, Match.OneOf Logger, Object
@@ -48,11 +52,22 @@ class LoggerConsole
             process.stdout.write colorize('red', colorize('bold', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ')) + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
           else
             process.stdout.write colorize('red', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ') + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
-        info: (obj) -> process.stdout.write colorize('cyan', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ') + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
-        warn: (obj) -> process.stdout.write colorize('magenta', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ') + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
-        debug: (obj) -> process.stdout.write colorize('white', colorize('bold', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ')) + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
-        trace: (obj) -> process.stdout.write colorize('blue', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ') + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
-        log: (obj) -> process.stdout.write colorize('bold', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ') + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
+          return
+        info: (obj) -> 
+          process.stdout.write colorize('cyan', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ') + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
+          return
+        warn: (obj) -> 
+          process.stdout.write colorize('magenta', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ') + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
+          return
+        debug: (obj) -> 
+          process.stdout.write colorize('white', colorize('bold', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ')) + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
+          return
+        trace: (obj) -> 
+          process.stdout.write colorize('blue', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ') + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
+          return
+        log: (obj) -> 
+          process.stdout.write colorize('bold', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ') + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
+          return
     else
       self.cons = 
         error: (obj) ->
@@ -64,27 +79,34 @@ class LoggerConsole
             console.error '%c[' + obj.level + ': ' + obj.message + ']', style, obj.data
           else
             console.log '%c[' + obj.level + ': ' + obj.message + ']', style, obj.data
+          return
         info: (obj) -> 
           if _.isFunction console.info
             console.info '%c[' + obj.level + ': ' + obj.message + ']', 'color:#34b1bf', obj.data
           else
             console.log '%c[' + obj.level + ': ' + obj.message + ']', 'color:#34b1bf', obj.data
+          return
         warn: (obj) -> 
           if _.isFunction console.warn
             console.warn '%c[' + obj.level + ': ' + obj.message + ']', 'color:#d025d1', obj.data
           else
             console.log '%c[' + obj.level + ': ' + obj.message + ']', 'color:#d025d1', obj.data
+          return
         debug: (obj) -> 
           if _.isFunction console.debug
             console.debug '%c[' + obj.level + ': ' + obj.message + ']', 'color:white;font-weight:bold;background-color:#000', obj.data
           else
             console.log '%c[' + obj.level + ': ' + obj.message + ']', 'color:white;font-weight:bold;background-color:#000', obj.data
+          return
         trace: (obj) ->
           if _.isFunction console.trace
             console.trace '%c[' + obj.level + ': ' + obj.message + ']', 'color:#501de9', obj.data
           else
             console.log '%c[' + obj.level + ': ' + obj.message + ']', 'color:#501de9', obj.data
-        log: (obj) -> console.log '%c[' + obj.level + ': ' + obj.message + ']', 'font-weight:bold', obj.data
+          return
+        log: (obj) -> 
+          console.log '%c[' + obj.level + ': ' + obj.message + ']', 'font-weight:bold', obj.data
+          return
 
     self.logger.add 'Console', (level, message, data = {}, userId) ->
       time = new Date()
@@ -111,6 +133,7 @@ class LoggerConsole
         when 'DEBUG' then self.cons.debug obj
         when 'TRACE' then self.cons.trace obj
         else self.cons.log obj
+      return
 
   enable: (rule = {}) ->
     check rule, Object

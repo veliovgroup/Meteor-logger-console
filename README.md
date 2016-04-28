@@ -22,7 +22,7 @@ Support this awesome package:
  - Star on [GitHub](https://github.com/VeliovGroup/Meteor-logger-console)
  - Star on [Atmosphere](https://atmospherejs.com/ostrio/loggerconsole)
  - [Tweet](https://twitter.com/share?url=https://github.com/VeliovGroup/Meteor-logger-console&text=Print%20colorful%20log%20messages%20and%20send%20Client's%20logs%20to%20Server's%20console%20%23meteorjs%20%23javascript%20via%20%40VeliovGroup)
- - Share on [Facebook](https://github.com/VeliovGroup/Meteor-logger-console)
+ - Share on [Facebook](https://www.facebook.com/sharer.php?u=https://github.com/VeliovGroup/Meteor-logger-console)
 
 Usage
 ========

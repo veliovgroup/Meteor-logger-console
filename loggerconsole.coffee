@@ -136,9 +136,16 @@ class LoggerConsole
       return
 
   enable: (rule = {}) ->
-    check rule, Object
+    check rule, {
+      enable: Match.Optional Boolean
+      client: Match.Optional Boolean
+      server: Match.Optional Boolean
+      filter: Match.Optional [String]
+    }
+
     rule.enable ?= true
     rule.client ?= true
     rule.server ?= true
+
     @logger.rule 'Console', rule
     return @

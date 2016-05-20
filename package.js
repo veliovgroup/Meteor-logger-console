@@ -1,6 +1,6 @@
 Package.describe({
   name: 'ostrio:loggerconsole',
-  version: '1.1.1',
+  version: '1.1.2',
   summary: 'Logging: Print Client\'s logs to Server\'s console, messages colorized for better readability',
   git: 'https://github.com/VeliovGroup/Meteor-logger-console',
   documentation: 'README.md'
@@ -8,7 +8,7 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
-  api.use(['ostrio:logger@1.1.1', 'coffeescript', 'check', 'underscore'], ['client', 'server']);
+  api.use(['ostrio:logger@1.1.2', 'coffeescript', 'check', 'underscore'], ['client', 'server']);
   api.addFiles('loggerconsole.coffee', ['client', 'server']);
   api.export('LoggerConsole');
 });

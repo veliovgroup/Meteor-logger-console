@@ -32,15 +32,17 @@ Usage
 
 Example: [*Isomorphic*]
 ```javascript
-this.log = new Logger(); // Initialize Logger
-var LogConsole = new LoggerConsole(log); // Initialize LoggerConsole
-LogConsole.enable(); // Enable LoggerConsole with default settings
+// Initialize Logger:
+this.log = new Logger();
+
+// Initialize LoggerConsole and enable with default settings:
+(new LoggerConsole(log)).enable();
 ```
 
-##### Activate and set adapter settings: [*Isomorphic*]
+##### Activate with custom adapter settings: [*Isomorphic*]
 ```javascript
 this.log = new Logger();
-new LoggerConsole(log).enable({
+(new LoggerConsole(log)).enable({
   enable: true,
   filter: ['ERROR', 'FATAL', 'WARN'], /* Filters: 'ERROR', 'FATAL', 'WARN', 'DEBUG', 'INFO', 'TRACE', '*' */
   client: true, /* Output logs on both Server's and Client's console */
@@ -51,7 +53,7 @@ new LoggerConsole(log).enable({
 ##### Log message: [*Isomorphic*]
 ```javascript
 this.log = new Logger();
-new LoggerConsole(log).enable();
+(new LoggerConsole(log)).enable();
 
 /*
   message {String} - Any text message
@@ -70,7 +72,7 @@ log._(message, data, userId); //--> Plain log without level
 throw log.error(message, data, usmerId);
 ```
 
-##### Catch-all Client's errors example: [*CLIENT*]
+##### Catch-all Client's errors example: [*Client*]
 ```javascript
 /* Store original window.onerror */
 var _WoE = window.onerror;
@@ -88,13 +90,13 @@ window.onerror = function(msg, url, line) {
 this.log1 = new Logger();
 this.log2 = new Logger();
 
-new LoggerConsole(log1).enable({
+(new LoggerConsole(log1)).enable({
   filter: ['*'],
   client: true,
   server: true
 });
 
-new LoggerConsole(log2).enable({
+(new LoggerConsole(log2)).enable({
   filter: ['ERROR', 'FATAL'],
   client: true,
   server: true

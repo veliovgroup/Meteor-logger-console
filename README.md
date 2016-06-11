@@ -27,8 +27,16 @@ Support this awesome package:
 Usage
 ========
 ##### Initialization [*Isomorphic*]
-`new LoggerConsole(LoggerInstance)`
+`new LoggerConsole(LoggerInstance, settings)`
  - `LoggerInstance` {*Logger*} - from `new Logger()`
+ - `settings` {*Object*}
+ - `settings.format` {*Function*} - This function must return *String*. Arguments:
+  * `opts` {*Object*}
+  * `opts.userId` {*String*}
+  * `opts.time` {*Date*} - Report date
+  * `opts.level` {*String*} - Message level, one of: `ERROR`, `FATAL`, `WARN`, `DEBUG`, `INFO`, `TRACE`, `LOG`, `*`
+  * `opts.message` {*String*} - Report message
+  * `opts.data` {*Object*} - Additional info passed as object
 
 Example: [*Isomorphic*]
 ```javascript
@@ -37,6 +45,13 @@ this.log = new Logger();
 
 // Initialize LoggerConsole and enable with default settings:
 (new LoggerConsole(log)).enable();
+
+// Initialize LoggerConsole and enable with custom formatting:
+(new LoggerConsole(log, {
+  format: function (opts) {
+    return ((Meteor.isServer) ? '[SERVER]' : "[CLIENT]") + ' [' + opts.level + '] - ' + opts.message;
+  }
+})).enable();
 ```
 
 ##### Activate with custom adapter settings: [*Isomorphic*]

@@ -3,7 +3,7 @@
 @summary Colorful console adapter for ostrio:logger (Logger)
 ###
 class LoggerConsole
-  constructor: (@logger) ->
+  constructor: (@logger, @settings = {}) ->
     check @logger, Match.OneOf Logger, Object
 
     self = @
@@ -46,66 +46,80 @@ class LoggerConsole
         close = '\x1B[' + styles[style][1] + 'm '
         return open + text + close
 
-      self.cons = 
-        error: (obj) ->
+      self.cons =
+        error: (obj, message) ->
           if obj.level is 'FATAL'
-            process.stdout.write colorize('red', colorize('bold', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ')) + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
+            process.stdout.write colorize('red', colorize('bold', message)) + '\r\n'
+            if obj.data and not _.isEmpty obj.data
+              process.stdout.write JSON.stringify(obj.data, false, 2) + '\r\n'
           else
-            process.stdout.write colorize('red', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ') + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
+            process.stdout.write colorize('red', message) + '\r\n'
+            if obj.data and not _.isEmpty obj.data
+              process.stdout.write JSON.stringify(obj.data, false, 2) + '\r\n'
           return
-        info: (obj) -> 
-          process.stdout.write colorize('cyan', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ') + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
+        info: (obj, message) ->
+          process.stdout.write colorize('cyan', message) + '\r\n'
+          if obj.data and not _.isEmpty obj.data
+            process.stdout.write JSON.stringify(obj.data, false, 2) + '\r\n'
           return
-        warn: (obj) -> 
-          process.stdout.write colorize('magenta', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ') + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
+        warn: (obj, message) -> 
+          process.stdout.write colorize('magenta', message) + '\r\n'
+          if obj.data and not _.isEmpty obj.data
+            process.stdout.write JSON.stringify(obj.data, false, 2) + '\r\n'
           return
-        debug: (obj) -> 
-          process.stdout.write colorize('white', colorize('bold', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ')) + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
+        debug: (obj, message) ->
+          process.stdout.write colorize('white', colorize('bold', message)) + '\r\n'
+          if obj.data and not _.isEmpty obj.data
+            process.stdout.write JSON.stringify(obj.data, false, 2) + '\r\n'
           return
-        trace: (obj) -> 
-          process.stdout.write colorize('blue', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ') + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
+        trace: (obj, message) ->
+          process.stdout.write colorize('blue', message) + '\r\n'
+          if obj.data and not _.isEmpty obj.data
+            process.stdout.write JSON.stringify(obj.data, false, 2) + '\r\n'
           return
-        log: (obj) -> 
-          process.stdout.write colorize('bold', '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ') + '\r\n' + JSON.stringify(obj.data, false, 2) + '\r\n'
+        log: (obj, message) ->
+          process.stdout.write colorize('bold', message) + '\r\n'
+          if obj.data and not _.isEmpty obj.data
+            process.stdout.write JSON.stringify(obj.data, false, 2) + '\r\n'
           return
     else
-      self.cons = 
-        error: (obj) ->
+      self.cons =
+        error: (obj, message) ->
           if obj.level is 'FATAL'
             style = 'color:#fb3120;font-weight:bold'
           else
             style = 'color:#fb3120'
           if _.isFunction console.error
-            console.error '%c[' + obj.level + ': ' + obj.message + ']', style, obj.data
+            console.error message, style, obj.data
           else
-            console.log '%c[' + obj.level + ': ' + obj.message + ']', style, obj.data
+            console.log message, style, obj.data
           return
-        info: (obj) -> 
+        info: (obj, message) ->
           if _.isFunction console.info
-            console.info '%c[' + obj.level + ': ' + obj.message + ']', 'color:#34b1bf', obj.data
+            console.info message, 'color:#34b1bf', obj.data
           else
-            console.log '%c[' + obj.level + ': ' + obj.message + ']', 'color:#34b1bf', obj.data
+            console.log message, 'color:#34b1bf', obj.data
           return
-        warn: (obj) -> 
+        warn: (obj, message) ->
           if _.isFunction console.warn
-            console.warn '%c[' + obj.level + ': ' + obj.message + ']', 'color:#d025d1', obj.data
+            console.warn message, 'color:#d025d1', obj.data
           else
-            console.log '%c[' + obj.level + ': ' + obj.message + ']', 'color:#d025d1', obj.data
+            console.log message, 'color:#d025d1', obj.data
           return
-        debug: (obj) -> 
+        debug: (obj, message) ->
           if _.isFunction console.debug
-            console.debug '%c[' + obj.level + ': ' + obj.message + ']', 'color:white;font-weight:bold;background-color:#000', obj.data
+            console.debug message, 'color:white;font-weight:bold;background-color:#000', obj.data
           else
-            console.log '%c[' + obj.level + ': ' + obj.message + ']', 'color:white;font-weight:bold;background-color:#000', obj.data
+            console.log message, 'color:white;font-weight:bold;background-color:#000', obj.data
           return
-        trace: (obj) ->
+        trace: (obj, message) ->
           if _.isFunction console.trace
-            console.trace '%c[' + obj.level + ': ' + obj.message + ']', 'color:#501de9', obj.data
+            console.trace message, 'color:#501de9', obj.data
           else
-            console.log '%c[' + obj.level + ': ' + obj.message + ']', 'color:#501de9', obj.data
+            console.log message, 'color:#501de9', obj.data
           return
-        log: (obj) -> 
-          console.log '%c[' + obj.level + ': ' + obj.message + ']', 'font-weight:bold', obj.data
+        log: (obj, message) ->
+          console.log message, 'font-weight:bold', obj.data
           return
 
     self.logger.add 'Console', (level, message, data = {}, userId) ->
@@ -121,18 +135,31 @@ class LoggerConsole
       if _.isString data.stackTrace
         data.stackTrace = data.stackTrace.split /\n|\\n|\r|\r\n/g
 
-      obj.data =
-        data: data
-        userId: userId
+      obj.data   = data   if data
+      obj.userId = userId if userId
+
+      if self.settings.format
+        _message = self.settings.format obj
+        check _message, String
+
+        if Meteor.isServer
+          message = _message
+        else
+          message = '%c' + _message + ''
+      else
+        if Meteor.isServer
+          message = '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] '
+        else
+          message = '%c[' + obj.level + ': ' + obj.message + ']'
 
       switch level
-        when 'FATAL' then self.cons.error obj
-        when 'ERROR' then self.cons.error obj
-        when 'INFO'  then self.cons.info  obj
-        when 'WARN'  then self.cons.warn  obj
-        when 'DEBUG' then self.cons.debug obj
-        when 'TRACE' then self.cons.trace obj
-        else self.cons.log obj
+        when 'FATAL' then self.cons.error obj, message
+        when 'ERROR' then self.cons.error obj, message
+        when 'INFO'  then self.cons.info  obj, message
+        when 'WARN'  then self.cons.warn  obj, message
+        when 'DEBUG' then self.cons.debug obj, message
+        when 'TRACE' then self.cons.trace obj, message
+        else self.cons.log obj, message
       return
 
   enable: (rule = {}) ->

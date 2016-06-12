@@ -50,37 +50,23 @@ class LoggerConsole
         error: (obj, message) ->
           if obj.level is 'FATAL'
             process.stdout.write colorize('red', colorize('bold', message)) + '\r\n'
-            if obj.data and not _.isEmpty obj.data
-              process.stdout.write JSON.stringify(obj.data, false, 2) + '\r\n'
           else
             process.stdout.write colorize('red', message) + '\r\n'
-            if obj.data and not _.isEmpty obj.data
-              process.stdout.write JSON.stringify(obj.data, false, 2) + '\r\n'
           return
         info: (obj, message) ->
           process.stdout.write colorize('cyan', message) + '\r\n'
-          if obj.data and not _.isEmpty obj.data
-            process.stdout.write JSON.stringify(obj.data, false, 2) + '\r\n'
           return
         warn: (obj, message) -> 
           process.stdout.write colorize('magenta', message) + '\r\n'
-          if obj.data and not _.isEmpty obj.data
-            process.stdout.write JSON.stringify(obj.data, false, 2) + '\r\n'
           return
         debug: (obj, message) ->
           process.stdout.write colorize('white', colorize('bold', message)) + '\r\n'
-          if obj.data and not _.isEmpty obj.data
-            process.stdout.write JSON.stringify(obj.data, false, 2) + '\r\n'
           return
         trace: (obj, message) ->
           process.stdout.write colorize('blue', message) + '\r\n'
-          if obj.data and not _.isEmpty obj.data
-            process.stdout.write JSON.stringify(obj.data, false, 2) + '\r\n'
           return
         log: (obj, message) ->
           process.stdout.write colorize('bold', message) + '\r\n'
-          if obj.data and not _.isEmpty obj.data
-            process.stdout.write JSON.stringify(obj.data, false, 2) + '\r\n'
           return
     else
       self.cons =
@@ -148,7 +134,9 @@ class LoggerConsole
           message = '%c' + _message + ''
       else
         if Meteor.isServer
-          message = '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] '
+          message = '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ' + '\r\n'
+          if obj.data and not _.isEmpty obj.data
+            message += JSON.stringify(obj.data, false, 2) + '\r\n'
         else
           message = '%c[' + obj.level + ': ' + obj.message + ']'
 

@@ -11,7 +11,7 @@ meteor@1.1.14
 modules@0.6.1
 modules-runtime@0.6.3
 ostrio:logger@1.1.2
-ostrio:loggerconsole@1.2.0
+ostrio:loggerconsole@1.2.1
 promise@0.6.7
 random@1.0.9
 reactive-var@1.0.9

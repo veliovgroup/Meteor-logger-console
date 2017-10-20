@@ -32,7 +32,7 @@ class LoggerConsole {
         let message = '';
         for (let i = 0; i < textArr.length; i++) {
           if (textArr[i] && textArr[i].length) {
-            message += '\x1B[' + styles[style][0] + 'm' + textArr[i] + '\x1B[' + styles[style][1] + 'm \r\n';
+            message += '\x1B[' + styles[style][0] + 'm' + textArr[i] + '\x1B[' + styles[style][1] + 'm \n';
           }
         }
         return message;
@@ -41,25 +41,25 @@ class LoggerConsole {
       this.cons = {
         error(obj, message) {
           if (obj.level === 'FATAL') {
-            process.stdout.write(colorize('red', colorize('bold', message)) + '\r\n');
+            process.stdout.write(colorize('red', colorize('bold', message)) + '\n');
           } else {
-            process.stdout.write(colorize('red', message) + '\r\n');
+            process.stdout.write(colorize('red', message) + '\n');
           }
         },
         info(obj, message) {
-          process.stdout.write(colorize('cyan', message) + '\r\n');
+          process.stdout.write(colorize('cyan', message) + '\n');
         },
         warn(obj, message) {
-          process.stdout.write(colorize('magenta', message) + '\r\n');
+          process.stdout.write(colorize('magenta', message) + '\n');
         },
         debug(obj, message) {
-          process.stdout.write(colorize('white', colorize('bold', message)) + '\r\n');
+          process.stdout.write(colorize('white', colorize('bold', message)) + '\n');
         },
         trace(obj, message) {
-          process.stdout.write(colorize('blue', message) + '\r\n');
+          process.stdout.write(colorize('blue', message) + '\n');
         },
         log(obj, message) {
-          process.stdout.write(colorize('bold', message) + '\r\n');
+          process.stdout.write(colorize('bold', message) + '\n');
         }
       };
     } else {
@@ -126,7 +126,7 @@ class LoggerConsole {
       }
 
       if (_.isString(data.stackTrace)) {
-        data.stackTrace = data.stackTrace.split(/\n|\\n|\r|\r\n/g);
+        data.stackTrace = data.stackTrace.split(/\n|\\n|\r|\n/g);
       }
 
       if (data) {
@@ -147,9 +147,9 @@ class LoggerConsole {
         }
       } else {
         if (Meteor.isServer) {
-          _message = '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ' + '\r\n';
+          _message = '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ' + '\n';
           if (obj.data && !_.isEmpty(obj.data)) {
-            _message += JSON.stringify(obj.data, false, 2) + '\r\n';
+            _message += JSON.stringify(obj.data, false, 2) + '\n';
           }
         } else {
           _message = '%c[' + obj.level + ': ' + obj.message + ']';

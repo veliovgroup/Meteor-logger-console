@@ -79,7 +79,6 @@ class LoggerConsole {
           }
         },
         info(obj, message) {
-          console.warn("===========>", arguments);
           if (_.isFunction(console.info)) {
             console.info(message, 'color:#34b1bf', obj.data);
           } else {

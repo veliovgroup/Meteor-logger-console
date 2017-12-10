@@ -73,7 +73,7 @@ const log = new Logger();
 });
 ```
 
-##### Log message: [*Isomorphic*]
+#### Log message: [*Isomorphic*]
 ```jsx
 import { Logger }        from 'meteor/ostrio:logger';
 import { LoggerConsole } from 'meteor/ostrio:loggerconsole';

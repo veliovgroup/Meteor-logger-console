@@ -16,29 +16,19 @@ Features:
 ### Client example:
 ![client example](https://raw.githubusercontent.com/VeliovGroup/Meteor-logger-console/master/client.png)
 
-Installation:
-========
+## Installation:
 ```shell
 meteor add ostrio:logger # If not yet installed
 meteor add ostrio:loggerconsole
 ```
 
-ES6 Import:
-========
+## ES6 Import:
 ```jsx
 import { Logger }        from 'meteor/ostrio:logger';
 import { LoggerConsole } from 'meteor/ostrio:loggerconsole';
 ```
 
-Support this awesome package:
-========
- - Star on [GitHub](https://github.com/VeliovGroup/Meteor-logger-console)
- - Star on [Atmosphere](https://atmospherejs.com/ostrio/loggerconsole)
- - [Tweet](https://twitter.com/share?url=https://github.com/VeliovGroup/Meteor-logger-console&text=Print%20colorful%20log%20messages%20and%20send%20Client's%20logs%20to%20Server's%20console%20%23meteorjs%20%23javascript%20via%20%40VeliovGroup)
- - Share on [Facebook](https://www.facebook.com/sharer.php?u=https://github.com/VeliovGroup/Meteor-logger-console)
-
-Usage
-========
+## Usage
 ### Initialization [*Isomorphic*]
 `new LoggerConsole(LoggerInstance, settings)`
   - `LoggerInstance` {*Logger*} - from `new Logger()`
@@ -120,14 +110,19 @@ window.onerror = (msg, url, line) => {
   }
 };
 ```
+
 ### Catch-all Server's errors example: [*Server*]
 ```jsx
+const bound = Meteor.bindEnvironment((callback) => {callback();});
 process.on('uncaughtException', function (err) {
-  log.error("Server Crashed!", err);
-  console.error(err.stack);
-  process.exit(7);
+  bound(() => {
+    log.error("Server Crashed!", err);
+    console.error(err.stack);
+    process.exit(7);
+  });
 };
 ```
+
 ### Catch-all Meteor's errors example: [*Server*]
 ```jsx
 // store original Meteor error
@@ -159,8 +154,13 @@ const log2 = new Logger();
 });
 ```
 
-Support this project:
-======
+## Support this awesome package:
+ - Star on [GitHub](https://github.com/VeliovGroup/Meteor-logger-console)
+ - Star on [Atmosphere](https://atmospherejs.com/ostrio/loggerconsole)
+ - [Tweet](https://twitter.com/share?url=https://github.com/VeliovGroup/Meteor-logger-console&text=Print%20colorful%20log%20messages%20and%20send%20Client's%20logs%20to%20Server's%20console%20%23meteorjs%20%23javascript%20via%20%40VeliovGroup)
+ - Share on [Facebook](https://www.facebook.com/sharer.php?u=https://github.com/VeliovGroup/Meteor-logger-console)
+
+## Support this project:
 This project wouldn't be possible without [ostr.io](https://ostr.io).
 
 Using [ostr.io](https://ostr.io) you are not only [protecting domain names](https://ostr.io/info/domain-names-protection), [monitoring websites and servers](https://ostr.io/info/monitoring), using [Prerendering for better SEO](https://ostr.io/info/prerendering) of your JavaScript website, but support our Open Source activity, and great packages like this one could be available for free.

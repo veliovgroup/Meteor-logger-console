@@ -1,7 +1,33 @@
-import { _ }            from 'meteor/underscore';
 import { Meteor }       from 'meteor/meteor';
 import { Logger }       from 'meteor/ostrio:logger';
 import { check, Match } from 'meteor/check';
+
+const helpers = {
+  isObject(obj) {
+    if (this.isArray(obj) || this.isFunction(obj)) {
+      return false;
+    }
+    return obj === Object(obj);
+  },
+  isArray(obj) {
+    return Array.isArray(obj);
+  },
+  isFunction(obj) {
+    return typeof obj === 'function' || false;
+  },
+  isEmpty(obj) {
+    if (this.isDate(obj)) {
+      return false;
+    }
+    if (this.isObject(obj)) {
+      return !Object.keys(obj).length;
+    }
+    if (this.isArray(obj) || this.isString(obj)) {
+      return !obj.length;
+    }
+    return false;
+  }
+};
 
 /*
  * @class LoggerConsole
@@ -72,35 +98,35 @@ class LoggerConsole {
             style = 'color:#fb3120';
           }
 
-          if (_.isFunction(console.error)) {
+          if (helpers.isFunction(console.error)) {
             console.error(message, style, obj.data);
           } else {
             console.log(message, style, obj.data);
           }
         },
         info(obj, message) {
-          if (_.isFunction(console.info)) {
+          if (helpers.isFunction(console.info)) {
             console.info(message, 'color:#34b1bf', obj.data);
           } else {
             console.log(message, 'color:#34b1bf', obj.data);
           }
         },
         warn(obj, message) {
-          if (_.isFunction(console.warn)) {
+          if (helpers.isFunction(console.warn)) {
             console.warn(message, 'color:#d025d1', obj.data);
           } else {
             console.log(message, 'color:#d025d1', obj.data);
           }
         },
         debug(obj, message) {
-          if (_.isFunction(console.debug)) {
+          if (helpers.isFunction(console.debug)) {
             console.debug(message, 'color:white;font-weight:bold;background-color:#000', obj.data);
           } else {
             console.log(message, 'color:white;font-weight:bold;background-color:#000', obj.data);
           }
         },
         trace(obj, message) {
-          if (_.isFunction(console.trace)) {
+          if (helpers.isFunction(console.trace)) {
             console.trace(message, 'color:#501de9', obj.data);
           } else {
             console.log(message, 'color:#501de9', obj.data);
@@ -126,7 +152,7 @@ class LoggerConsole {
         data = this.logger.antiCircular(data);
       }
 
-      if (_.isString(data.stackTrace)) {
+      if (helpers.isString(data.stackTrace)) {
         data.stackTrace = data.stackTrace.split(/\n\r|\r\n|\r|\n/g);
       }
 
@@ -149,7 +175,7 @@ class LoggerConsole {
       } else {
         if (Meteor.isServer) {
           _message = '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ';
-          if (obj.data && !_.isEmpty(obj.data)) {
+          if (obj.data && !helpers.isEmpty(obj.data)) {
             _message += JSON.stringify(obj.data, false, 2);
           }
         } else {
@@ -157,7 +183,7 @@ class LoggerConsole {
         }
       }
 
-      if (!obj.data || _.isEmpty(obj.data)) {
+      if (!obj.data || helpers.isEmpty(obj.data)) {
         obj.data = '';
       }
 

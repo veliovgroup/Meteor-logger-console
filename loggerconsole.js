@@ -29,6 +29,13 @@ const helpers = {
   }
 };
 
+const _helpers = ['String', 'Date'];
+for (let i = 0; i < _helpers.length; i++) {
+  helpers['is' + _helpers[i]] = function (obj) {
+    return Object.prototype.toString.call(obj) === '[object ' + _helpers[i] + ']';
+  };
+}
+
 /*
  * @class LoggerConsole
  * @summary Colorful console adapter for ostrio:logger (Logger)

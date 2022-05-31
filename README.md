@@ -1,8 +1,10 @@
-# Logging: To Console
-
-<a href="https://www.patreon.com/bePatron?u=20396046">
-  <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+[![support](https://img.shields.io/badge/support-GitHub-white)](https://github.com/sponsors/dr-dimitru)
+[![support](https://img.shields.io/badge/support-PayPal-white)](https://paypal.me/veliovgroup)
+<a href="https://ostr.io/info/built-by-developers-for-developers">
+  <img src="https://ostr.io/apple-touch-icon-60x60.png" height="20">
 </a>
+
+# Logging: To Console
 
 *Console* adapter for [logger driver](https://github.com/VeliovGroup/Meteor-logger). Print Client's log messages to Server's console package. All messages is enhanced with colors and extra styles for better readability.
 
@@ -33,7 +35,7 @@ meteor add ostrio:loggerconsole
 ## ES6 Import:
 
 ```js
-import { Logger }        from 'meteor/ostrio:logger';
+import { Logger } from 'meteor/ostrio:logger';
 import { LoggerConsole } from 'meteor/ostrio:loggerconsole';
 ```
 
@@ -56,7 +58,7 @@ import { LoggerConsole } from 'meteor/ostrio:loggerconsole';
 #### Example: [*Isomorphic*]
 
 ```js
-import { Logger }        from 'meteor/ostrio:logger';
+import { Logger } from 'meteor/ostrio:logger';
 import { LoggerConsole } from 'meteor/ostrio:loggerconsole';
 
 // Initialize Logger:
@@ -75,7 +77,7 @@ const log = new Logger();
 ### Activate with custom adapter settings: [*Isomorphic*]
 
 ```js
-import { Logger }        from 'meteor/ostrio:logger';
+import { Logger } from 'meteor/ostrio:logger';
 import { LoggerConsole } from 'meteor/ostrio:loggerconsole';
 
 const log = new Logger();
@@ -90,7 +92,7 @@ const log = new Logger();
 #### Log message: [*Isomorphic*]
 
 ```js
-import { Logger }        from 'meteor/ostrio:logger';
+import { Logger } from 'meteor/ostrio:logger';
 import { LoggerConsole } from 'meteor/ostrio:loggerconsole';
 
 const log = new Logger();
@@ -193,5 +195,6 @@ meteor test-packages ./
 
 ## Support our open source contribution:
 
-- [Become a patron](https://www.patreon.com/bePatron?u=20396046) — support my open source contributions with monthly donation
+- [Sponsor via GitHub](https://github.com/sponsors/dr-dimitru)
+- [Support via PayPal](https://paypal.me/veliovgroup)
 - Use [ostr.io](https://ostr.io) — [Monitoring](https://snmp-monitoring.com), [Analytics](https://ostr.io/info/web-analytics), [WebSec](https://domain-protection.info), [Web-CRON](https://web-cron.info) and [Pre-rendering](https://prerendering.com) for a website

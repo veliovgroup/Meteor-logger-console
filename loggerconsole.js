@@ -1,5 +1,5 @@
-import { Meteor }       from 'meteor/meteor';
-import { Logger }       from 'meteor/ostrio:logger';
+import { Meteor } from 'meteor/meteor';
+import { Logger } from 'meteor/ostrio:logger';
 import { check, Match } from 'meteor/check';
 
 const helpers = {
@@ -31,12 +31,12 @@ const helpers = {
 
 const _helpers = ['String', 'Date'];
 for (let i = 0; i < _helpers.length; i++) {
-  helpers['is' + _helpers[i]] = function (obj) {
-    return Object.prototype.toString.call(obj) === '[object ' + _helpers[i] + ']';
+  helpers[`is${_helpers[i]}`] = function (obj) {
+    return Object.prototype.toString.call(obj) === `[object ${_helpers[i]}]`;
   };
 }
 
-/*
+/**
  * @class LoggerConsole
  * @summary Colorful console adapter for ostrio:logger (Logger)
  */
@@ -45,7 +45,11 @@ class LoggerConsole {
     check(logger, Match.OneOf(Logger, Object));
     check(settings, Match.Optional(Object));
 
-    this.logger   = logger;
+    if (typeof settings.highlight === 'undefined') {
+      settings.highlight = true;
+    }
+
+    this.logger = logger;
     this.settings = settings;
 
     if (Meteor.isServer) {
@@ -65,9 +69,14 @@ class LoggerConsole {
         let message = '';
         for (let i = 0; i < textArr.length; i++) {
           if (textArr[i] && textArr[i].length) {
-            message += '\x1B[' + styles[style][0] + 'm' + textArr[i] + '\x1B[' + styles[style][1] + 'm \n';
+            if (settings.highlight) {
+              message += '\x1B[' + styles[style][0] + 'm' + textArr[i] + '\x1B[' + styles[style][1] + 'm \n';
+            } else {
+              message += `${textArr[i]} \n`;
+            }
           }
         }
+
         return message;
       };
 
@@ -145,19 +154,14 @@ class LoggerConsole {
       };
     }
 
-    this.logger.add('Console', (level, message, _data = {}, userId) => {
+    this.logger.add('Console', (level, message, data = {}, userId) => {
       const time = new Date();
-      let data = _data;
 
       const obj = {
         time: time,
         level: level,
         message: message
       };
-
-      if (data && Meteor.isServer) {
-        data = this.logger.antiCircular(data);
-      }
 
       if (helpers.isString(data.stackTrace)) {
         data.stackTrace = data.stackTrace.split(/\n\r|\r\n|\r|\n/g);
@@ -172,26 +176,30 @@ class LoggerConsole {
       }
 
       let _message = '';
-      if (this.settings.format) {
+      if (typeof this.settings.format === 'function') {
         _message = this.settings.format(obj);
         check(_message, String);
 
-        if (!Meteor.isServer) {
-          _message = '%c' + _message + '';
+        if (!Meteor.isServer && this.settings.highlight) {
+          _message = `%c${_message}`;
         }
       } else {
         if (Meteor.isServer) {
-          _message = '[' + obj.level + ': ' + obj.message + ' @ ' + obj.time + '] ';
-          if (obj.data && !helpers.isEmpty(obj.data)) {
-            _message += JSON.stringify(obj.data, false, 2);
+          _message = `[${obj.level}: ${obj.message} @ ${obj.time}] `;
+          if (!helpers.isEmpty(obj.data)) {
+            if (helpers.isObject(obj.data) || helpers.isArray(obj.data)) {
+              _message += JSON.stringify(obj.data, false, 2);
+            } else if (helpers.isString(obj.data)){
+              _message += obj.data;
+            }
           }
         } else {
-          _message = '%c[' + obj.level + ': ' + obj.message + ']';
+          if (this.settings.highlight) {
+            _message = `%c[${obj.level}: ${obj.message} @ ${obj.time}]`;
+          } else {
+            _message = `[${obj.level}: ${obj.message} @ ${obj.time}]`;
+          }
         }
-      }
-
-      if (!obj.data || helpers.isEmpty(obj.data)) {
-        obj.data = '';
       }
 
       switch (level) {
@@ -227,15 +235,15 @@ class LoggerConsole {
       filter: Match.Optional([String])
     });
 
-    if (rule.enable == null) {
+    if (typeof rule.enable === 'undefined') {
       rule.enable = true;
     }
 
-    if (rule.client == null) {
+    if (typeof rule.client === 'undefined') {
       rule.client = true;
     }
 
-    if (rule.server == null) {
+    if (typeof rule.server === 'undefined') {
       rule.server = true;
     }
 

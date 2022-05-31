@@ -7,7 +7,8 @@ const log1 = new Logger();
 (new LoggerConsole(log1, {
   format: function (opts) {
     return ((Meteor.isServer) ? '[SERVER] ' : '[CLIENT] ') + ' [' + opts.level + '] - ' + opts.message + ' - ' + JSON.stringify(opts.data);
-  }
+  },
+  // highlight: false
 })).enable();
 
 log1.info('From: ' + ((Meteor.isServer) ? '[SERVER] ' : '[CLIENT] ') + 'Some info string ', {test: 'Info Data'});
@@ -26,7 +27,9 @@ log1._('From: ' + ((Meteor.isServer) ? '[SERVER] ' : '[CLIENT] ') + '_ ', {test:
 log1._('From: ' + ((Meteor.isServer) ? '[SERVER] ' : '[CLIENT] ') + '(no data object) _ ');
 
 const log = new Logger();
-(new LoggerConsole(log)).enable();
+(new LoggerConsole(log, {
+  // highlight: false
+})).enable();
 
 Tinytest.add('LoggerMessage Instance', (test) => {
   test.instanceOf(log.info('This is message "info"', {data: 'Sample data "info"'}, 'userId "info"'), LoggerMessage);
@@ -65,6 +68,95 @@ Tinytest.add('Log a Number', (test) => {
   test.instanceOf(log.warn(50, {data: 50}, 50), LoggerMessage);
   test.instanceOf(log.trace(60, {data: 60}, 60), LoggerMessage);
   test.instanceOf(log._(70, {data: 70}, 70), LoggerMessage);
+});
+
+Tinytest.add('Log a null', (test) => {
+  test.instanceOf(log.info(10, null), LoggerMessage);
+  test.instanceOf(log.debug(20, null), LoggerMessage);
+  test.instanceOf(log.error(30, null), LoggerMessage);
+  test.instanceOf(log.fatal(40, null), LoggerMessage);
+  test.instanceOf(log.warn(50, null), LoggerMessage);
+  test.instanceOf(log.trace(60, null), LoggerMessage);
+  test.instanceOf(log._(70, null), LoggerMessage);
+});
+
+Tinytest.add('Log a Object', (test) => {
+  test.instanceOf(log.info(10, {keyNull: null, keyStr: 'str'}), LoggerMessage);
+  test.instanceOf(log.debug(20, {keyNull: null, keyStr: 'str'}), LoggerMessage);
+  test.instanceOf(log.error(30, {keyNull: null, keyStr: 'str'}), LoggerMessage);
+  test.instanceOf(log.fatal(40, {keyNull: null, keyStr: 'str'}), LoggerMessage);
+  test.instanceOf(log.warn(50, {keyNull: null, keyStr: 'str'}), LoggerMessage);
+  test.instanceOf(log.trace(60, {keyNull: null, keyStr: 'str'}), LoggerMessage);
+  test.instanceOf(log._(70, {keyNull: null, keyStr: 'str'}), LoggerMessage);
+});
+
+Tinytest.add('Log a String', (test) => {
+  test.instanceOf(log.info(10, 'string value'), LoggerMessage);
+  test.instanceOf(log.debug(20, 'string value'), LoggerMessage);
+  test.instanceOf(log.error(30, 'string value'), LoggerMessage);
+  test.instanceOf(log.fatal(40, 'string value'), LoggerMessage);
+  test.instanceOf(log.warn(50, 'string value'), LoggerMessage);
+  test.instanceOf(log.trace(60, 'string value'), LoggerMessage);
+  test.instanceOf(log._(70, 'string value'), LoggerMessage);
+});
+
+Tinytest.add('Log with wrong arguments', (test) => {
+  test.instanceOf(log.info('info wrong values', false), LoggerMessage);
+  test.instanceOf(log.debug('debug wrong values', true), LoggerMessage);
+  test.instanceOf(log.error('error wrong values', true), LoggerMessage);
+  test.instanceOf(log.fatal('fatal wrong values', false), LoggerMessage);
+  test.instanceOf(log.warn('warn wrong values', undefined), LoggerMessage);
+  test.instanceOf(log.trace('trace wrong values', ''), LoggerMessage);
+  test.instanceOf(log._('_ wrong values', []), LoggerMessage);
+});
+
+Tinytest.add('Log Boolean message', (test) => {
+  test.instanceOf(log.info('info', true), LoggerMessage);
+  test.instanceOf(log.debug('debug', true), LoggerMessage);
+  test.instanceOf(log.error('error', false), LoggerMessage);
+  test.instanceOf(log.fatal('fatal', false), LoggerMessage);
+  test.instanceOf(log.warn('warn', true), LoggerMessage);
+  test.instanceOf(log.trace('trace', true), LoggerMessage);
+  test.instanceOf(log._('_', true), LoggerMessage);
+});
+
+Tinytest.add('Log without message', (test) => {
+  test.instanceOf(log.info(10), LoggerMessage);
+  test.instanceOf(log.debug(20), LoggerMessage);
+  test.instanceOf(log.error(30), LoggerMessage);
+  test.instanceOf(log.fatal(40), LoggerMessage);
+  test.instanceOf(log.warn(50), LoggerMessage);
+  test.instanceOf(log.trace(60), LoggerMessage);
+  test.instanceOf(log._(70), LoggerMessage);
+});
+
+Tinytest.add('Log without arguments', (test) => {
+  test.instanceOf(log.info(), LoggerMessage);
+  test.instanceOf(log.debug(), LoggerMessage);
+  test.instanceOf(log.error(), LoggerMessage);
+  test.instanceOf(log.fatal(), LoggerMessage);
+  test.instanceOf(log.warn(), LoggerMessage);
+  test.instanceOf(log.trace(), LoggerMessage);
+  test.instanceOf(log._(), LoggerMessage);
+});
+
+const dataObj = {
+  time: new Date,
+  subObj: {
+    keyStr: 'str'
+  }
+};
+
+dataObj.subObj.do = dataObj;
+
+Tinytest.add('Log a Circular', (test) => {
+  test.instanceOf(log.info(10, dataObj), LoggerMessage);
+  test.instanceOf(log.debug(20, dataObj), LoggerMessage);
+  test.instanceOf(log.error(30, dataObj), LoggerMessage);
+  test.instanceOf(log.fatal(40, dataObj), LoggerMessage);
+  test.instanceOf(log.warn(50, dataObj), LoggerMessage);
+  test.instanceOf(log.trace(60, dataObj), LoggerMessage);
+  test.instanceOf(log._(70, dataObj), LoggerMessage);
 });
 
 Tinytest.add('Trace', (test) => {

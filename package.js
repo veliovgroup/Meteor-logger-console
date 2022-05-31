@@ -1,6 +1,6 @@
 Package.describe({
   name: 'ostrio:loggerconsole',
-  version: '2.0.5',
+  version: '2.1.0',
   summary: 'Logging: Print Client\'s logs to Server\'s console, messages colorized for better readability',
   git: 'https://github.com/VeliovGroup/Meteor-logger-console',
   documentation: 'README.md'
@@ -8,7 +8,7 @@ Package.describe({
 
 Package.onUse((api) => {
   api.versionsFrom('1.4');
-  api.use(['ecmascript', 'check', 'ostrio:logger@2.0.8'], ['client', 'server']);
+  api.use(['ecmascript', 'check', 'ostrio:logger@2.1.1'], ['client', 'server']);
   api.mainModule('loggerconsole.js', ['client', 'server']);
 });
 

@@ -47,6 +47,7 @@ import { LoggerConsole } from 'meteor/ostrio:loggerconsole';
 
 - `LoggerInstance` {*Logger*} - from `new Logger()`
 - `settings` {*Object*}
+- `settings.highlight` {*Boolean*} - Enable/Disable color highlighting; By default: `true`
 - `settings.format` {*Function*} - This function must return *String*. Arguments:
   - `opts` {*Object*}
   - `opts.userId` {*String*}

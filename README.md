@@ -41,6 +41,8 @@ import { LoggerConsole } from 'meteor/ostrio:loggerconsole';
 
 ## Usage
 
+Initialize `LoggerConsole` instance passing `LoggerInstance` as a first argument into constructor to enable logging into the console.
+
 ### Initialization [*Isomorphic*]
 
 `new LoggerConsole(LoggerInstance, settings)`

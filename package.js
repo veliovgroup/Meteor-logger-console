@@ -2,7 +2,7 @@ Package.describe({
   name: 'ostrio:loggerconsole',
   version: '2.1.0',
   summary: 'Logging: Print Client\'s logs to Server\'s console, messages colorized for better readability',
-  git: 'https://github.com/VeliovGroup/Meteor-logger-console',
+  git: 'https://github.com/veliovgroup/Meteor-logger-console',
   documentation: 'README.md'
 });
 

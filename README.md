@@ -6,7 +6,7 @@
 
 # Logging: To Console
 
-*Console* adapter for [logger driver](https://github.com/VeliovGroup/Meteor-logger). Print Client's log messages to Server's console package. All messages is enhanced with colors and extra styles for better readability.
+*Console* adapter for [logger driver](https://github.com/veliovgroup/Meteor-logger). Print Client's log messages to Server's console package. All messages is enhanced with colors and extra styles for better readability.
 
 This package is not limited to transferring *Client* log messages to Server. It can be used on *Client* or *Server* only, or for printing colorized messages.
 
@@ -20,10 +20,10 @@ Features:
 ## Screen shots:
 
 Server:
-![server example](https://raw.githubusercontent.com/VeliovGroup/Meteor-logger-console/master/server.png)
+![server example](https://raw.githubusercontent.com/veliovgroup/Meteor-logger-console/master/server.png)
 
 Client:
-![client example](https://raw.githubusercontent.com/VeliovGroup/Meteor-logger-console/master/client.png)
+![client example](https://raw.githubusercontent.com/veliovgroup/Meteor-logger-console/master/client.png)
 
 ## Installation:
 
@@ -191,10 +191,10 @@ meteor test-packages ./
 
 ## Support this awesome package:
 
-- Star on [GitHub](https://github.com/VeliovGroup/Meteor-logger-console)
+- Star on [GitHub](https://github.com/veliovgroup/Meteor-logger-console)
 - Star on [Atmosphere](https://atmospherejs.com/ostrio/loggerconsole)
-- [Tweet](https://twitter.com/share?url=https://github.com/VeliovGroup/Meteor-logger-console&text=Print%20colorful%20log%20messages%20and%20send%20Client's%20logs%20to%20Server's%20console%20%23meteorjs%20%23javascript%20via%20%40VeliovGroup)
-- Share on [Facebook](https://www.facebook.com/sharer.php?u=https://github.com/VeliovGroup/Meteor-logger-console)
+- [Tweet](https://twitter.com/share?url=https://github.com/veliovgroup/Meteor-logger-console&text=Print%20colorful%20log%20messages%20and%20send%20Client's%20logs%20to%20Server's%20console%20%23meteorjs%20%23javascript%20via%20%40veliovgroup)
+- Share on [Facebook](https://www.facebook.com/sharer.php?u=https://github.com/veliovgroup/Meteor-logger-console)
 
 ## Support our open source contribution:
 

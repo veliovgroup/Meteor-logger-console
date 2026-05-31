@@ -105,51 +105,38 @@ class LoggerConsole {
         }
       };
     } else {
+      const writeClient = (method, message, data, style) => {
+        const fn = helpers.isFunction(console[method]) ? console[method] : console.log;
+        if (settings.highlight) {
+          fn(message, style, data);
+        } else if (data !== undefined) {
+          fn(message, data);
+        } else {
+          fn(message);
+        }
+      };
+
       this.cons = {
         error(obj, message) {
-          let style = '';
-          if (obj.level === 'FATAL') {
-            style = 'color:#fb3120;font-weight:bold';
-          } else {
-            style = 'color:#fb3120';
-          }
-
-          if (helpers.isFunction(console.error)) {
-            console.error(message, style, obj.data);
-          } else {
-            console.log(message, style, obj.data);
-          }
+          const style = (obj.level === 'FATAL')
+            ? 'color:#fb3120;font-weight:bold'
+            : 'color:#fb3120';
+          writeClient('error', message, obj.data, style);
         },
         info(obj, message) {
-          if (helpers.isFunction(console.info)) {
-            console.info(message, 'color:#34b1bf', obj.data);
-          } else {
-            console.log(message, 'color:#34b1bf', obj.data);
-          }
+          writeClient('info', message, obj.data, 'color:#34b1bf');
         },
         warn(obj, message) {
-          if (helpers.isFunction(console.warn)) {
-            console.warn(message, 'color:#d025d1', obj.data);
-          } else {
-            console.log(message, 'color:#d025d1', obj.data);
-          }
+          writeClient('warn', message, obj.data, 'color:#d025d1');
         },
         debug(obj, message) {
-          if (helpers.isFunction(console.debug)) {
-            console.debug(message, 'color:white;font-weight:bold;background-color:#000', obj.data);
-          } else {
-            console.log(message, 'color:white;font-weight:bold;background-color:#000', obj.data);
-          }
+          writeClient('debug', message, obj.data, 'color:white;font-weight:bold;background-color:#000');
         },
         trace(obj, message) {
-          if (helpers.isFunction(console.trace)) {
-            console.trace(message, 'color:#501de9', obj.data);
-          } else {
-            console.log(message, 'color:#501de9', obj.data);
-          }
+          writeClient('trace', message, obj.data, 'color:#501de9');
         },
         log(obj, message) {
-          console.log(message, 'font-weight:bold', obj.data);
+          writeClient('log', message, obj.data, 'font-weight:bold');
         }
       };
     }

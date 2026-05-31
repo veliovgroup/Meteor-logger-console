@@ -32,6 +32,19 @@ meteor add ostrio:logger # If not yet installed
 meteor add ostrio:loggerconsole
 ```
 
+### Compatibility
+
+- Meteor **2.14–3.4**
+- Meteor 3 requires `ostrio:logger` **≥ 2.2.0**
+
+### Agent skill
+
+```bash
+npx skills add veliovgroup/Meteor-logger --skill meteor-logger -g
+```
+
+Covers `ostrio:logger` and all adapters.
+
 ## ES6 Import:
 
 ```js
@@ -49,7 +62,7 @@ Initialize `LoggerConsole` instance passing `LoggerInstance` as a first argument
 
 - `LoggerInstance` {*Logger*} - from `new Logger()`
 - `settings` {*Object*}
-- `settings.highlight` {*Boolean*} - Enable/Disable color highlighting; By default: `true`
+- `settings.highlight` {*Boolean*} - Enable/disable ANSI colors (server) and browser `%c` / CSS styles (client). Default: `true`. Set to `false` for plain logs (CI, Elasticsearch/Kibana, log shippers).
 - `settings.format` {*Function*} - This function must return *String*. Arguments:
   - `opts` {*Object*}
   - `opts.userId` {*String*}
@@ -73,6 +86,28 @@ const log = new Logger();
 (new LoggerConsole(log, {
   format(opts) {
     return ((Meteor.isServer) ? '[SERVER]' : '[CLIENT]') + ' [' + opts.level + '] - ' + opts.message;
+  }
+})).enable();
+```
+
+#### Plain / structured logs (no colors): [*Isomorphic*]
+
+```js
+import { Logger } from 'meteor/ostrio:logger';
+import { LoggerConsole } from 'meteor/ostrio:loggerconsole';
+
+const log = new Logger();
+
+(new LoggerConsole(log, {
+  highlight: false,
+  format(opts) {
+    return JSON.stringify({
+      level: opts.level,
+      message: opts.message,
+      data: opts.data,
+      userId: opts.userId,
+      time: opts.time
+    });
   }
 })).enable();
 ```

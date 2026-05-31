@@ -1,6 +1,6 @@
 import { Meteor }                from 'meteor/meteor';
-import { LoggerConsole }         from 'meteor/ostrio:loggerconsole';
 import { Logger, LoggerMessage } from 'meteor/ostrio:logger';
+import { LoggerConsole }         from 'meteor/ostrio:loggerconsole';
 
 const log1 = new Logger();
 (new LoggerConsole(log1, {
@@ -69,7 +69,7 @@ Tinytest.add('Log a Number', (test) => {
   test.instanceOf(log._(70, {data: 70}, 70), LoggerMessage);
 });
 
-Tinytest.add('Log a null', (test) => {
+Tinytest.add('Log an empty object', (test) => {
   test.instanceOf(log.info(10, {}), LoggerMessage);
   test.instanceOf(log.debug(20, {}), LoggerMessage);
   test.instanceOf(log.error(30, {}), LoggerMessage);
@@ -115,6 +115,7 @@ Tinytest.add('Log Boolean message', (test) => {
   test.instanceOf(log.error('error', false), LoggerMessage);
   test.instanceOf(log.fatal('fatal', false), LoggerMessage);
   test.instanceOf(log.warn('warn', true), LoggerMessage);
+  // TRACE assigns `data.stackTrace` on the server, which throws on a primitive — pass an object
   test.instanceOf(log.trace('trace', {value: true}), LoggerMessage);
   test.instanceOf(log._('_', true), LoggerMessage);
 });
@@ -173,6 +174,58 @@ Tinytest.add('highlight false', (test) => {
   (new LoggerConsole(logH, {highlight: false})).enable();
   test.instanceOf(logH.info('highlight-off'), LoggerMessage);
 });
+
+if (Meteor.isServer) {
+  Tinytest.add('highlight false omits ANSI on server', (test) => {
+    const logPlain = new Logger();
+    const writes = [];
+    const originalWrite = process.stdout.write.bind(process.stdout);
+    process.stdout.write = (chunk, encoding, cb) => {
+      writes.push(String(chunk));
+      return originalWrite(chunk, encoding, cb);
+    };
+
+    try {
+      (new LoggerConsole(logPlain, { highlight: false })).enable();
+      logPlain.info('plain-server-log', { test: true });
+      const output = writes.join('');
+      test.isFalse(/\x1B\[[0-9;]*m/.test(output), 'stdout must not contain ANSI escapes');
+      test.isTrue(output.includes('plain-server-log'), output);
+    } finally {
+      process.stdout.write = originalWrite;
+    }
+  });
+}
+
+if (Meteor.isClient) {
+  Tinytest.add('highlight false omits styles on client', (test) => {
+    const logPlain = new Logger();
+    const calls = [];
+    const originalLog = console.log;
+    const originalInfo = console.info;
+
+    console.log = function (...args) {
+      calls.push(args);
+      return originalLog.apply(console, args);
+    };
+    console.info = function (...args) {
+      calls.push(args);
+      return originalInfo.apply(console, args);
+    };
+
+    try {
+      (new LoggerConsole(logPlain, { highlight: false })).enable();
+      logPlain.info('plain-client-log', { test: true });
+      const infoCall = calls.find((args) => args[0] && String(args[0]).includes('plain-client-log'));
+      test.isTrue(!!infoCall, 'expected a console call for plain-client-log');
+      test.isFalse(infoCall.some((arg) => typeof arg === 'string' && arg.indexOf('color:') === 0), infoCall);
+      test.isFalse(String(infoCall[0]).includes('%c'), infoCall);
+    } finally {
+      console.log = originalLog;
+      console.info = originalInfo;
+    }
+  });
+}
 
 Tinytest.add('enable returns adapter', (test) => {
   const logE = new Logger();

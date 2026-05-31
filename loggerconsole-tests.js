@@ -1,4 +1,3 @@
-import { _ }                     from 'meteor/underscore';
 import { Meteor }                from 'meteor/meteor';
 import { LoggerConsole }         from 'meteor/ostrio:loggerconsole';
 import { Logger, LoggerMessage } from 'meteor/ostrio:logger';
@@ -71,13 +70,13 @@ Tinytest.add('Log a Number', (test) => {
 });
 
 Tinytest.add('Log a null', (test) => {
-  test.instanceOf(log.info(10, null), LoggerMessage);
-  test.instanceOf(log.debug(20, null), LoggerMessage);
-  test.instanceOf(log.error(30, null), LoggerMessage);
-  test.instanceOf(log.fatal(40, null), LoggerMessage);
-  test.instanceOf(log.warn(50, null), LoggerMessage);
-  test.instanceOf(log.trace(60, null), LoggerMessage);
-  test.instanceOf(log._(70, null), LoggerMessage);
+  test.instanceOf(log.info(10, {}), LoggerMessage);
+  test.instanceOf(log.debug(20, {}), LoggerMessage);
+  test.instanceOf(log.error(30, {}), LoggerMessage);
+  test.instanceOf(log.fatal(40, {}), LoggerMessage);
+  test.instanceOf(log.warn(50, {}), LoggerMessage);
+  test.instanceOf(log.trace(60, {}), LoggerMessage);
+  test.instanceOf(log._(70, {}), LoggerMessage);
 });
 
 Tinytest.add('Log a Object', (test) => {
@@ -116,7 +115,7 @@ Tinytest.add('Log Boolean message', (test) => {
   test.instanceOf(log.error('error', false), LoggerMessage);
   test.instanceOf(log.fatal('fatal', false), LoggerMessage);
   test.instanceOf(log.warn('warn', true), LoggerMessage);
-  test.instanceOf(log.trace('trace', true), LoggerMessage);
+  test.instanceOf(log.trace('trace', {value: true}), LoggerMessage);
   test.instanceOf(log._('_', true), LoggerMessage);
 });
 
@@ -161,9 +160,35 @@ Tinytest.add('Log a Circular', (test) => {
 
 Tinytest.add('Trace', (test) => {
   if (Meteor.isServer) {
-    test.isTrue(_.has(log.trace(602, {data: 602}, 602).details, 'stackTrace'));
-    test.isTrue(_.has(log.trace(602, {data: 602}, 602).data, 'stackTrace'));
+    const traced = log.trace(602, {data: 602}, 602);
+    test.isTrue(Object.prototype.hasOwnProperty.call(traced.details, 'stackTrace'));
+    test.isTrue(Object.prototype.hasOwnProperty.call(traced.data, 'stackTrace'));
   } else {
     test.isTrue(true);
   }
+});
+
+Tinytest.add('highlight false', (test) => {
+  const logH = new Logger();
+  (new LoggerConsole(logH, {highlight: false})).enable();
+  test.instanceOf(logH.info('highlight-off'), LoggerMessage);
+});
+
+Tinytest.add('enable returns adapter', (test) => {
+  const logE = new Logger();
+  const adapter = new LoggerConsole(logE);
+  test.equal(adapter.enable({filter: ['ERROR']}), adapter);
+  test.instanceOf(logE.error('enable-filter-error'), LoggerMessage);
+});
+
+Tinytest.add('enable client false', (test) => {
+  const logC = new Logger();
+  (new LoggerConsole(logC)).enable({client: false, server: true});
+  test.instanceOf(logC.info('client-false-rule'), LoggerMessage);
+});
+
+Tinytest.add('enable server false', (test) => {
+  const logS = new Logger();
+  (new LoggerConsole(logS)).enable({client: true, server: false});
+  test.instanceOf(logS.info('server-false-rule'), LoggerMessage);
 });

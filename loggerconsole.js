@@ -175,7 +175,7 @@ class LoggerConsole {
           _message = `[${obj.level}: ${obj.message} @ ${obj.time}] `;
           if (!helpers.isEmpty(obj.data)) {
             if (helpers.isObject(obj.data) || helpers.isArray(obj.data)) {
-              _message += JSON.stringify(obj.data, false, 2);
+              _message += JSON.stringify(obj.data, null, 2);
             } else if (helpers.isString(obj.data)){
               _message += obj.data;
             }

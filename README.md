@@ -34,7 +34,7 @@ meteor add ostrio:loggerconsole
 
 ### Compatibility
 
-- Meteor **2.14–3.4**
+- Meteor **2.14–3.4.***
 - Meteor 3 requires `ostrio:logger` **≥ 2.2.0**
 
 ### Agent skill
